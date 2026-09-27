@@ -93,14 +93,12 @@ const Header = () => {
   const logout = () => {
     setAnchorMyAcc(null);
 
-    fetchDataFromApi(`/api/user/logout?token=${localStorage.getItem('accessToken')}`, { withCredentials: true }).then((res) => {
-      if (res?.error === false) {
-        context.setIsLogin(false);
-        localStorage.removeItem("accessToken");
-        localStorage.removeItem("refreshToken");
-        history("/login")
-      }
-    })
+    const token = localStorage.getItem("accessToken");
+    fetchDataFromApi(`/api/user/logout?token=${token}`, { withCredentials: true });
+    context.setIsLogin(false);
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
+    history("/login");
   }
 
   return (

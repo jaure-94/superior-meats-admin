@@ -120,8 +120,8 @@ export const deleteImages = async (url,image ) => {
           },
     
     } 
-    const { res } = await axios.delete(apiUrl + url, params);
-    return res;
+    const { data } = await axios.delete(apiUrl + url, params);
+    return data;
 }
 
 

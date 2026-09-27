@@ -68,7 +68,7 @@ const ManageLogo = () => {
         if (context?.userData?.role === "ADMIN") {
             var imageArr = [];
             imageArr = previews;
-            deleteImages(`/api/logo/deteleImage?img=${image}`).then((res) => {
+            deleteImages(`/api/logo/deteleImage?img=${encodeURIComponent(image)}`).then((res) => {
                 imageArr.splice(index, 1);
 
                 setPreviews([]);
@@ -76,8 +76,9 @@ const ManageLogo = () => {
                     setPreviews(imageArr);
                     formFields.logo = imageArr[0]
                 }, 100);
-
-            })
+            }).catch((error) => {
+                context.alertBox("error", error.response?.data?.message || "Unable to delete image");
+            });
         } else {
             context.alertBox("error", "Only admin can delete data");
         }

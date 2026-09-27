@@ -1,7 +1,7 @@
 import "./App.css";
 import "./responsive.css";
 import React from 'react';
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, Navigate, RouterProvider } from "react-router-dom";
 import Dashboard from "./Pages/Dashboard";
 import Header from "./Components/Header";
 import Sidebar from "./Components/Sidebar";
@@ -36,7 +36,7 @@ import LoadingBar from "react-top-loading-bar";
 const MyContext = createContext();
 function App() {
   const [isSidebarOpen, setisSidebarOpen] = useState(true);
-  const [isLogin, setIsLogin] = useState(false);
+  const [isLogin, setIsLogin] = useState(() => Boolean(localStorage.getItem("accessToken")));
   const [userData, setUserData] = useState(null);
   const [address, setAddress] = useState([]);
   const [catData, setCatData] = useState([]);
@@ -79,7 +79,7 @@ function App() {
     {
       path: "/",
       exact: true,
-      element: (
+      element: isLogin ? (
         <>
           <section className="main">
             <Header />
@@ -100,7 +100,7 @@ function App() {
             </div>
           </section>
         </>
-      ),
+      ) : <Navigate to="/login" replace />,
     },
     {
       path: "/login",
